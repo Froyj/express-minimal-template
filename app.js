@@ -13,6 +13,22 @@ const extractUserName = (req, res, next) => {
   }
 }
 
+const handleError = (err, req, res, next) => {
+  console.error(err)
+};
+
+app.use(handleError);
+app.get('/syncError', (req, res) => {
+  throw new Error('BOOM');
+});
+
+app.get('/asyncError', (req, res) => {
+  setTimeout(() => {
+   throw new Error('BOOM');
+  }, 1000);
+ });
+ 
+
 app.get('/myroute', (req, res) => {
   console.log('handling /myroute');
   res.send('content for /myroute');
