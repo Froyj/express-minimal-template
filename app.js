@@ -20,4 +20,9 @@ app.get('/myroute', (req, res) => {
   res.send('content for /myroute');
 });
 
+app.get('/hello', (req, res) => {
+  console.log('handling /hello');
+  res.send(`Hello ${req.query.name}`);
+});
+
 app.listen(5000, () => console.log('server listening on port 5000'));
