@@ -12,15 +12,12 @@ const middleware2 = (req, res, next) => {
   next();
 }
 
-app.use(middleware1, middleware2);
-// or app.use([middleware1, middleware2]);
-
-app.get('/myroute', (req, res) => {
+app.get('/myroute', middleware1, middleware2, (req, res) => {
   console.log('handling /myroute');
   res.send('content for /myroute');
 });
 
-app.get('/hello', (req, res) => {
+app.get('/hello', middleware2, (req, res) => {
   console.log('handling /hello');
   res.send(`Hello ${req.query.name}`);
 });
