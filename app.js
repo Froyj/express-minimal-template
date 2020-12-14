@@ -4,6 +4,7 @@ const app = express();
 
 const middleware1 = (req, res, next) => {
   console.log("Doing stuff in middelware 1");
+  next();
 }
 
 app.use(middleware1);
