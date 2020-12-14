@@ -11,23 +11,26 @@ const extractUserName = (req, res, next) => {
       .status(400)
       .send('You have to specify a "name" query parameter to call this route');
   }
-}
-
-const handleError = (err, req, res, next) => {
-  console.error(err)
 };
 
-app.use(handleError);
+const handleError = (err, req, res, next) => {
+  console.error(err);
+  res.status(500).send('Something broke!')
+};
+
 app.get('/syncError', (req, res) => {
   throw new Error('BOOM');
 });
 
-app.get('/asyncError', (req, res) => {
+app.get('/asyncError', async (req, res, next) => {
   setTimeout(() => {
-   throw new Error('BOOM');
+    try {
+      throw new Error('BOOM');
+    } catch (error) {
+      next(error);
+    }
   }, 1000);
- });
- 
+});
 
 app.get('/myroute', (req, res) => {
   console.log('handling /myroute');
@@ -38,5 +41,7 @@ app.get('/hello', extractUserName, (req, res) => {
   console.log('handling /hello');
   res.send(`Hello ${req.userName}`);
 });
+
+app.use(handleError);
 
 app.listen(5000, () => console.log('server listening on port 5000'));
