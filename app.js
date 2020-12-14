@@ -7,7 +7,13 @@ const middleware1 = (req, res, next) => {
   next();
 }
 
-app.use(middleware1);
+const middleware2 = (req, res, next) => {
+  console.log("Doing stuff in middleware 2");
+  next();
+}
+
+app.use(middleware1, middleware2);
+// or app.use([middleware1, middleware2]);
 
 app.get('/myroute', (req, res) => {
   console.log('handling /myroute');
